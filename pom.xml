@@ -49,9 +49,9 @@
 			<version>20070405</version>
 		</dependency>
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.46</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.46</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -81,6 +81,26 @@
 				<version>2.21.0</version>
 				<configuration>
 					<argLine>-Xmx4M</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-classpath</argument>
+						<argument>target/tinyse-2019.stage_1.build_1.jar</argument>
+						<argument>edu.hanyang.indexer.ExternalSort</argument>
+					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
