@@ -1,4 +1,4 @@
-#java -Xms64m -Xmx64m -jar stage2.jar "./submit/stage2/2014038304-0.0.1-SNAPSHOT.jar" "4096" "2000"
+#java -Xms64m -Xmx64m -jar stage2.jar "./submit/stage2/student-0.0.1-SNAPSHOT.jar" "4096" "2000"
 
 # For all submissions
 for entry in ./submit/stage2/*
