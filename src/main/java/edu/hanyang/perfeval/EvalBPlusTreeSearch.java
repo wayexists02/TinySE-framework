@@ -3,15 +3,20 @@ package edu.hanyang.perfeval;
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.net.URL;
+import java.net.URLClassLoader;
 
-import edu.hanyang.submit.TinySEBPlusTree;
+import edu.hanyang.indexer.BPlusTree;
+
+//import edu.hanyang.submit.TinySEBPlusTree;
 
 public class EvalBPlusTreeSearch {
 	public static void main(String[] args) throws Exception {
 		if (args.length < 6) {
-			System.out.println("<metafile path> <file path> <block size> <# of blocks> <studnet id> <input file>");
+			System.out.println("<metafile path> <file path> <block size> <# of blocks> <studnet id> <input file> <student's jar file>");
 			System.exit(1);
 		}
 
@@ -22,6 +27,7 @@ public class EvalBPlusTreeSearch {
 		String studentID = args[4];
 		studentID = studentID.split("_")[0];
 		String inputfile = args[5];
+		String filename = (String) args[6];
 
 		BufferedWriter bw = new BufferedWriter(new FileWriter(studentID + "_search", true));
 
@@ -29,7 +35,15 @@ public class EvalBPlusTreeSearch {
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		DataInputStream dis = new DataInputStream(bis);
 
-		TinySEBPlusTree tree = new TinySEBPlusTree();
+//		TinySEBPlusTree tree = new TinySEBPlusTree();
+		// dynamic loading from student's submission
+		File file = new File(filename);
+		URL url = file.toURI().toURL();
+		URL[] urls = new URL[] {url};
+		ClassLoader cl = new URLClassLoader(urls);
+		Class<BPlusTree> cls = (Class<BPlusTree>) cl.loadClass("edu.hanyang.submit.TinySEBPlusTree");
+		BPlusTree tree = (BPlusTree) cls.newInstance();
+		
 		try {
 			tree.open(metafile, filepath, blocksize, nblocks);
 		} catch (Exception e) {

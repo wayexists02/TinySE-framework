@@ -1,15 +1,17 @@
 package edu.hanyang.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
-import edu.hanyang.answer.TinySETokenizer;
+//import edu.hanyang.answer.TinySETokenizer;
 import edu.hanyang.indexer.BPlusTree;
 import edu.hanyang.indexer.DocumentCursor;
 import edu.hanyang.indexer.DocumentCursor.LIST_TYPE;
@@ -18,6 +20,7 @@ import edu.hanyang.indexer.QueryPlanTree;
 import edu.hanyang.indexer.QueryPlanTree.NODE_TYPE;
 import edu.hanyang.indexer.QueryPlanTree.QueryPlanNode;
 import edu.hanyang.indexer.QueryProcess;
+import edu.hanyang.indexer.Tokenizer;
 
 public class ExecuteQuery {
 	final int BLOCK_SIZE = 52;
@@ -55,8 +58,16 @@ public class ExecuteQuery {
 		tree.close();
 	}
 
-	public String translateQuery(String query) throws IOException {
-		TinySETokenizer obj = new TinySETokenizer();
+	public String translateQuery(String query) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+		// Dynamic loading "TinySETTokenizer"
+		File file = new File("TinySE-submit.jar"); // Assume students submit "TinySE-submit.jar"
+		URL url = file.toURI().toURL();
+		URL[] urls = new URL[] {url};
+		ClassLoader cl = new URLClassLoader(urls);
+		Class<Tokenizer> cls = (Class<Tokenizer>) cl.loadClass("edu.hanyang.answer.TinySETokenizer");
+		
+//		TinySETokenizer obj = new TinySETokenizer();
+		Tokenizer obj = (Tokenizer) cls.newInstance();
 		obj.setup();
 		StringBuffer sb = new StringBuffer();
 
