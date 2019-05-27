@@ -1,4 +1,6 @@
-#java -Xms64m -Xmx64m -jar stage2.jar "./submit/stage2/student-0.0.1-SNAPSHOT.jar" "4096" "2000"
+# Example evaluation command
+# This stage2.jar is exported as runnable jar from eclipse.
+# java -Xms64m -Xmx64m -jar stage2.jar "./submit/stage2/2014038304-0.0.1-SNAPSHOT.jar" "4096" "2000"
 
 # For all submissions
 for entry in ./submit/stage2/*
@@ -10,6 +12,8 @@ do
             for ((nblocks=1000;nblocks<=2000;nblocks+=200))
             do
                 echo $entry $m $blocksize $nblocks
+		rm -rf tmp/run_*
+		rm sort-10000000.data
                 java -Xms${m}m -Xmx${m}m -jar stage2.jar "${entry}" "${blocksize}" "${nblocks}"
                 echo
             done
