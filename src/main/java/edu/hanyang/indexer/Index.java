@@ -23,11 +23,13 @@ public class Index {
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+		// argument 수 검사 (사용법 준수)
 		if (args.length != 6) {
 			System.err.print("usage: <inputfile> <directory metafile> <directory nodefile> <posting file> <block size> <number of available blocks>");
 			System.exit(1);
 		}
 		
+		// 한번에 이용할 메모리 블록 크기와 블록 개수
 		int blocksize = Integer.parseInt(args[4]);
 		int nblocks = Integer.parseInt(args[5]);
 		
